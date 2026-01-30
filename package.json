@@ -1,7 +1,22 @@
 {
   "name": "cl-orm",
-  "version": "0.0.0",
+  "main": "./lib/index.js",
+  "version": "0.1.2",
   "description": "A lightweight ORM for Cloudflare Workers (D1 and Durable Objects), designed to be intuitive, productive and focused on essential functionality",
+  "homepage": "https://wellwelwel.github.io/cl-orm/docs/",
+  "license": "MIT",
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/wellwelwel"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wellwelwel/cl-orm.git"
+  },
+  "author": "https://github.com/wellwelwel",
+  "bugs": {
+    "url": "https://github.com/wellwelwel/cl-orm/issues"
+  },
   "scripts": {
     "dev:d1": "wrangler dev --config test/__fixtures__/d1/wrangler.jsonc --port 8787 --inspector-port 9229",
     "dev:do": "wrangler dev --config test/__fixtures__/do/wrangler.jsonc --port 8788 --inspector-port 9230",
@@ -26,5 +41,20 @@
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",
     "wrangler": "^4.61.1"
-  }
+  },
+  "files": [
+    "lib"
+  ],
+  "keywords": [
+    "cloudflare",
+    "workers",
+    "orm",
+    "durable objects",
+    "durable-objects",
+    "d1",
+    "database",
+    "sqlite",
+    "prisma",
+    "drizzle"
+  ]
 }
