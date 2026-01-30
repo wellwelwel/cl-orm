@@ -1,6 +1,6 @@
-import type { JoinOptions, SelectOptions } from './types.js';
-import { quoteIdentifier } from './utils.js';
-import { buildWhere } from './where.js';
+import type { JoinOptions, SelectOptions } from '../types.js';
+import { quoteIdentifier } from './_utils.js';
+import { buildWhere } from './where/where.js';
 
 const buildColumns = (columns?: string | string[]): string => {
   if (!columns) return '*';

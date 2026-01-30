@@ -1,5 +1,5 @@
 import { assert, describe, it } from 'poku';
-import { quoteIdentifier } from '../../src/utils.js';
+import { quoteIdentifier } from '../../src/queries/_utils.js';
 
 describe('quoteIdentifier', () => {
   it('should quote a simple name', () => {

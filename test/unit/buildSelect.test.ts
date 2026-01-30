@@ -1,6 +1,6 @@
 import { assert, describe, it } from 'poku';
-import { OP } from '../../src/operators.js';
-import { buildSelect } from '../../src/select.js';
+import { buildSelect } from '../../src/queries/select.js';
+import { OP } from '../../src/queries/where/operators.js';
 
 describe('buildSelect', () => {
   it('should build a basic select', () => {

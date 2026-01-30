@@ -1,6 +1,6 @@
 import { assert, describe, it } from 'poku';
-import { OP } from '../../src/operators.js';
-import { buildUpdate } from '../../src/update.js';
+import { buildUpdate } from '../../src/queries/update.js';
+import { OP } from '../../src/queries/where/operators.js';
 
 describe('buildUpdate', () => {
   it('should build a basic update', () => {

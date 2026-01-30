@@ -1,6 +1,6 @@
 import { assert, describe, it } from 'poku';
-import { OP } from '../../src/operators.js';
-import { buildWhere } from '../../src/where.js';
+import { OP } from '../../src/queries/where/operators.js';
+import { buildWhere } from '../../src/queries/where/where.js';
 
 describe('buildWhere', () => {
   it('should handle raw string', () => {

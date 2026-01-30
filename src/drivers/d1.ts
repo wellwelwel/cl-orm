@@ -7,11 +7,11 @@ import type {
   SelectOptions,
   UpdateOptions,
 } from '../types.js';
-import { buildDelete } from '../delete.js';
-import { buildInsert } from '../insert.js';
-import { buildSelect } from '../select.js';
-import { buildUpdate } from '../update.js';
-import { prepare, returnsRows } from './utils.js';
+import { buildDelete } from '../queries/delete.js';
+import { buildInsert } from '../queries/insert.js';
+import { buildSelect } from '../queries/select.js';
+import { buildUpdate } from '../queries/update.js';
+import { prepare, returnsRows } from './_utils.js';
 
 export const useD1 = (db: D1Database): Connection => {
   const query = async <T = Record<string, unknown>>(

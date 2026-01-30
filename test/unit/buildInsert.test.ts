@@ -1,5 +1,5 @@
 import { assert, describe, it } from 'poku';
-import { buildInsert } from '../../src/insert.js';
+import { buildInsert } from '../../src/queries/insert.js';
 
 describe('buildInsert', () => {
   it('should build a single row insert', () => {

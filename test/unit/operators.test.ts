@@ -1,5 +1,5 @@
 import { assert, describe, it } from 'poku';
-import { OP } from '../../src/operators.js';
+import { OP } from '../../src/queries/where/operators.js';
 
 describe('OP (operators)', () => {
   it('should build eq condition', () => {

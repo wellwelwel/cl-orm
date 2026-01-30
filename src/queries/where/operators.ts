@@ -1,5 +1,5 @@
-import type { Condition, Param } from './types.js';
-import { quoteIdentifier } from './utils.js';
+import type { Condition, Param } from '../../types.js';
+import { quoteIdentifier } from '../_utils.js';
 
 const comparison = (
   column: string,

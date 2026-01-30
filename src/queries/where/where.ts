@@ -4,7 +4,7 @@ import type {
   Param,
   WhereClause,
   WhereItem,
-} from './types.js';
+} from '../../types.js';
 
 const isConnector = (value: WhereItem): value is Connector =>
   typeof value === 'string' && ['AND', 'OR', 'XOR', 'NOT'].includes(value);

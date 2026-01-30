@@ -1,6 +1,6 @@
 import { assert, describe, it } from 'poku';
-import { buildDelete } from '../../src/delete.js';
-import { OP } from '../../src/operators.js';
+import { buildDelete } from '../../src/queries/delete.js';
+import { OP } from '../../src/queries/where/operators.js';
 
 describe('buildDelete', () => {
   it('should build a basic delete', () => {

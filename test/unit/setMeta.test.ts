@@ -1,5 +1,5 @@
 import { assert, describe, it } from 'poku';
-import { setMeta } from '../../src/drivers/utils.js';
+import { setMeta } from '../../src/drivers/_utils.js';
 
 describe('setMeta', () => {
   it('should map cursor fields to Meta object', () => {

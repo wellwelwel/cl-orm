@@ -1,5 +1,5 @@
 import { assert, describe, it } from 'poku';
-import { returnsRows } from '../../src/drivers/utils.js';
+import { returnsRows } from '../../src/drivers/_utils.js';
 
 describe('returnsRows', () => {
   it('should return true for SELECT', () => {

@@ -7,11 +7,11 @@ import type {
   SelectOptions,
   UpdateOptions,
 } from '../types.js';
-import { buildDelete } from '../delete.js';
-import { buildInsert } from '../insert.js';
-import { buildSelect } from '../select.js';
-import { buildUpdate } from '../update.js';
-import { returnsRows, setMeta } from './utils.js';
+import { buildDelete } from '../queries/delete.js';
+import { buildInsert } from '../queries/insert.js';
+import { buildSelect } from '../queries/select.js';
+import { buildUpdate } from '../queries/update.js';
+import { returnsRows, setMeta } from './_utils.js';
 
 export const useDO = (sql: SqlStorage): Connection => {
   const exec = <T extends Record<string, SqlStorageValue>>(

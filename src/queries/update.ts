@@ -1,6 +1,6 @@
-import type { UpdateOptions } from './types.js';
-import { quoteIdentifier } from './utils.js';
-import { buildWhere } from './where.js';
+import type { UpdateOptions } from '../types.js';
+import { quoteIdentifier } from './_utils.js';
+import { buildWhere } from './where/where.js';
 
 export const buildUpdate = (
   options: UpdateOptions

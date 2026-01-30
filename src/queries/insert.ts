@@ -1,5 +1,5 @@
-import type { InsertOptions } from './types.js';
-import { quoteIdentifier } from './utils.js';
+import type { InsertOptions } from '../types.js';
+import { quoteIdentifier } from './_utils.js';
 
 export const buildInsert = (
   options: InsertOptions
