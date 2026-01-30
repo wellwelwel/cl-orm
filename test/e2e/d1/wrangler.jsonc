@@ -1,0 +1,13 @@
+{
+  "$schema": "../../../node_modules/wrangler/config-schema.json",
+  "name": "d1-test",
+  "main": "worker.ts",
+  "compatibility_date": "2026-01-28",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "d1-tutorial-db",
+      "database_id": "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+    }
+  ]
+}

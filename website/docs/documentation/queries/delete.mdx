@@ -1,0 +1,51 @@
+---
+sidebar_position: 4
+---
+
+# DELETE
+
+> For **WHERE** examples, please see the **WHERE** section.
+
+## Delete all rows
+
+```ts
+// highlight-start
+import { useD1 } from 'cl-orm';
+
+const db = useD1(env.DB);
+// highlight-end
+
+await db.delete({
+  table: 'temp',
+});
+```
+
+> SQL Query
+
+```sql
+DELETE FROM temp
+```
+
+<hr />
+
+## Limit the rows to be deleted
+
+```ts
+// highlight-start
+import { useD1 } from 'cl-orm';
+
+const db = useD1(env.DB);
+// highlight-end
+
+await db.delete({
+  table: 'test',
+  limit: 1,
+});
+```
+
+> SQL Query
+
+```sql
+DELETE FROM test LIMIT ?
+-- params: [1]
+```

@@ -1,0 +1,28 @@
+---
+sidebar_position: 12
+tags: [OP, Operators, Sub Query, Sub Queries]
+---
+
+# notIn
+
+> notIn(column: string, params: Param[])
+
+```ts
+import { OP, Param } from 'cl-orm';
+
+/**
+ * { condition: 'id NOT IN (?, ?, ?)', params: [16, 20, 50] }
+ */
+OP.notIn('id', [16, 20, 50]);
+```
+
+> notIn(column: string, subquery: string, params: Param[])
+
+```ts
+import { OP, Param } from 'cl-orm';
+
+/**
+ * { condition: 'userId NOT IN (SELECT id FROM users WHERE status IN (?, ?))', params: [0, 2] }
+ */
+OP.notIn('userId', 'SELECT id FROM users WHERE status IN (?, ?)', [0, 2]);
+```

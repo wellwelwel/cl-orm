@@ -1,0 +1,63 @@
+---
+sidebar_position: 0
+---
+
+# INSERT
+
+## Single insertion
+
+```ts
+// highlight-start
+import { useD1 } from 'cl-orm';
+
+const db = useD1(env.DB);
+// highlight-end
+
+await db.insert({
+  table: 'test',
+  values: {
+    column1: 'foo',
+    column2: 1,
+  },
+});
+```
+
+> SQL Query
+
+```sql
+INSERT INTO test (column1, column2) VALUES (?, ?)
+-- params: ['foo', 1]
+```
+
+<hr />
+
+## Multiple insertions
+
+```ts
+// highlight-start
+import { useD1 } from 'cl-orm';
+
+const db = useD1(env.DB);
+// highlight-end
+
+await db.insert({
+  table: 'test',
+  values: [
+    {
+      column1: 'foo',
+      column2: 1,
+    },
+    {
+      column1: 'bar',
+      column2: 2,
+    },
+  ],
+});
+```
+
+> SQL Query
+
+```sql
+INSERT INTO test (column1, column2) VALUES (?, ?), (?, ?)
+-- params: ['foo', 1,  'bar', 2]
+```

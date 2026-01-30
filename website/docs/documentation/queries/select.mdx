@@ -1,0 +1,294 @@
+---
+sidebar_position: 1
+---
+
+# SELECT
+
+> For **WHERE** examples, please see the **WHERE** section.
+
+## Simple SELECT
+
+```ts
+// highlight-start
+import { useD1 } from 'cl-orm';
+
+const db = useD1(env.DB);
+// highlight-end
+
+/**
+ * @return T[]
+ */
+await db.select({
+  table: 'test',
+});
+```
+
+> SQL Query
+
+```sql
+SELECT * FROM test
+```
+
+<hr />
+
+## SELECT (columns: string[])
+
+```ts
+// highlight-start
+import { useD1 } from 'cl-orm';
+
+const db = useD1(env.DB);
+// highlight-end
+
+/**
+ * @return T[]
+ */
+await db.select({
+  table: 'test',
+  columns: ['foo'],
+});
+```
+
+> SQL Query
+
+```sql
+SELECT foo FROM test
+```
+
+<hr />
+
+## SELECT (columns: string)
+
+```ts
+// highlight-start
+import { useD1 } from 'cl-orm';
+
+const db = useD1(env.DB);
+// highlight-end
+
+/**
+ * @return T[]
+ */
+await db.select({
+  table: 'test',
+  columns: 'COUNT(*) AS total',
+});
+```
+
+> SQL Query
+
+```sql
+SELECT COUNT(*) AS total FROM test
+```
+
+<hr />
+
+## SELECT (limit: number)
+
+```ts
+// highlight-start
+import { useD1 } from 'cl-orm';
+
+const db = useD1(env.DB);
+// highlight-end
+
+/**
+ * @return T[]
+ */
+await db.select({
+  table: 'test',
+  limit: 10,
+});
+```
+
+> SQL Query
+
+```sql
+SELECT * FROM test LIMIT ?
+-- params: [10]
+```
+
+- By using `limit: 1`, it will return a single **row** (`T | null`).
+
+<hr />
+
+## SELECT (offset: number)
+
+```ts
+// highlight-start
+import { useD1 } from 'cl-orm';
+
+const db = useD1(env.DB);
+// highlight-end
+
+await db.select({
+  table: 'test',
+  limit: 10,
+  offset: 20,
+});
+```
+
+> SQL Query
+
+```sql
+SELECT * FROM test LIMIT ? OFFSET ?
+-- params: [10, 20]
+```
+
+- By using `limit: 1`, it will return a single **row**.
+
+<hr />
+
+## SELECT (orderBy: [string, 'ASC' | 'DESC'])
+
+```ts
+// highlight-start
+import { useD1 } from 'cl-orm';
+
+const db = useD1(env.DB);
+// highlight-end
+
+await db.select({
+  table: 'test',
+  orderBy: ['id'],
+  // orderBy: ['id', 'ASC'],
+  // orderBy: ['id', 'DESC'],
+});
+```
+
+> SQL Query
+
+```sql
+SELECT * FROM test ORDER BY id ASC
+```
+
+<hr />
+
+## SELECT (groupBy: string)
+
+```ts
+// highlight-start
+import { useD1 } from 'cl-orm';
+
+const db = useD1(env.DB);
+// highlight-end
+
+await db.select({
+  columns: 'age, COUNT(*) AS total',
+  table: 'users',
+  groupBy: 'age',
+});
+```
+
+> SQL Query
+
+```sql
+SELECT age, COUNT(*) AS total FROM users GROUP BY age
+```
+
+<hr />
+
+## SELECT (join: JoinOptions | JoinOptions[])
+
+```ts
+// highlight-start
+import { useD1 } from 'cl-orm';
+
+const db = useD1(env.DB);
+// highlight-end
+
+await db.select({
+  columns: ['users.name', 'users.age'],
+  table: 'preferences',
+  join: {
+    type: 'left',
+    table: 'users',
+    on: {
+      a: 'preferences.userId',
+      b: 'users.id',
+    },
+  },
+});
+```
+
+> SQL Query
+
+```sql
+SELECT users.name, users.age
+FROM preferences
+LEFT JOIN users ON preferences.userId = users.id
+```
+
+- You can insert multiple `JOIN` by using them within an array.
+
+<hr />
+
+## Available options
+
+```ts
+export type SelectOptions = {
+  distinct?: boolean;
+  columns?: string | string[];
+  table: string;
+  join?: JoinOptions | JoinOptions[];
+  where?: WhereClause;
+  limit?: number;
+  offset?: number;
+  groupBy?: string;
+  orderBy?: [string] | [string, 'ASC' | 'DESC'];
+  params?: unknown[];
+};
+
+export type JoinOptions = {
+  type: 'left' | 'right' | 'inner' | 'cross';
+  table: string;
+  on: {
+    a: string;
+    b: string;
+  };
+  outer?: boolean;
+};
+```
+
+<hr />
+
+## Type Assertion
+
+The `select` method provides type assertion.
+
+```ts
+import { useD1 } from 'cl-orm';
+
+// highlight-start
+const db = useD1(env.DB);
+// highlight-end
+
+interface User {
+  id: number;
+  name: string;
+}
+
+/**
+ * @return User[]
+ */
+const users = await db.select<User>({
+  table: 'test',
+});
+
+/**
+ * @return User | null
+ */
+const user = await db.select<User>({
+  table: 'test',
+  limit: 1,
+});
+```
+
+:::note
+
+The return type as `T | null` or `T[]` is determined by `limit`, not the type assertion itself:
+
+- **If no `limit` is set or it's greater than 1:** `T[]` will be returned.
+- **Setting `limit: 1`:** `T | null` will be returned.
+
+:::

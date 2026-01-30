@@ -1,0 +1,30 @@
+{
+  "name": "cl-orm",
+  "version": "0.0.0",
+  "description": "A lightweight ORM for Cloudflare Workers (D1 and Durable Objects), designed to be intuitive, productive and focused on essential functionality",
+  "scripts": {
+    "dev:d1": "wrangler dev --config test/e2e/d1/wrangler.jsonc --port 8787 --inspector-port 9229",
+    "dev:do": "wrangler dev --config test/e2e/do/wrangler.jsonc --port 8788 --inspector-port 9230",
+    "prebuild": "rm -rf lib",
+    "build": "tsc -p tsconfig.build.json",
+    "lint": "prettier --check .",
+    "lint:fix": "prettier --write .",
+    "test": "poku test",
+    "test:coverage": "mcr --import tsx --config mcr.config.ts npm run test",
+    "typecheck": "tsc --noEmit",
+    "update": "pu && npm i && npm update && (npm audit fix || true)",
+    "postupdate": "npm run lint:fix"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260130.0",
+    "@ianvs/prettier-plugin-sort-imports": "^4.7.0",
+    "@types/node": "^25.1.0",
+    "monocart-coverage-reports": "^2.12.9",
+    "packages-update": "^2.0.0",
+    "poku": "^3.0.3-canary.13a996a9",
+    "prettier": "^3.8.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "wrangler": "^4.61.1"
+  }
+}

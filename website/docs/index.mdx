@@ -1,0 +1,229 @@
+---
+slug: /
+position: 1
+title: Getting Started
+description: A lightweight ORM for Cloudflare Workers, designed to be intuitive, productive and focused on essential functionality.
+---
+
+import { FAQ } from '@site/src/components/FAQ';
+import { PageTitle } from '@site/src/components/PageTitle';
+import Logo from '@site/static/img/favicon.svg';
+import TabItem from '@theme/TabItem';
+import Tabs from '@theme/Tabs';
+
+<PageTitle title='CL ORM | Getting Started' />
+
+[npm-image]: https://img.shields.io/npm/v/cl-orm.svg
+[npm-url]: https://npmjs.org/package/cl-orm
+[downloads-image]: https://img.shields.io/npm/dt/cl-orm.svg
+[downloads-url]: https://npmjs.org/package/cl-orm
+
+# CL ORM
+
+<div className='title-section'>
+<aside>
+A lightweight **ORM** for **Cloudflare Workers**, designed to be intuitive, productive and focused on essential functionality.
+
+[![NPM Version][npm-image]][npm-url]
+[![NPM Downloads][downloads-image]][downloads-url]
+
+> This project supports **Cloudflare D1** and **Durable Objects SQL Storage** as database drivers.
+
+</aside>
+  <aside>
+    <Logo className='logo' width={64} height={64} />
+  </aside>
+</div>
+
+## Why
+
+- An user-friendly ORM for **INSERT**, **SELECT**, **UPDATE**, **DELETE** and **WHERE** clauses.
+- Automatic **Prepared Statements** (including **LIMIT** and **OFFSET**).
+- Supports both **Cloudflare D1** and **Durable Objects** SQL Storage.
+- Unified **Connection** interface across different database drivers.
+- **Strictly Typed:** No usage of `any`, `as` neither `satisfies` at all.
+
+<hr />
+
+## Installation
+
+```bash
+npm i cl-orm
+```
+
+<hr />
+
+## Getting Started
+
+### Connect
+
+<Tabs>
+  <TabItem value='D1' default>
+
+#### src/index.ts
+
+```ts
+import { useD1 } from 'cl-orm';
+
+export default {
+  async fetch(request: Request, env: Env): Promise<Response> {
+    const db = useD1(env.DB);
+
+    await db.query('SELECT 1');
+    // ...
+  },
+};
+```
+
+#### wrangler.jsonc
+
+```json
+{
+  "name": "my-worker",
+  "main": "src/index.ts",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "my-database",
+      "database_id": "<your-database-id>"
+    }
+  ]
+}
+```
+
+  </TabItem>
+  <TabItem value='Durable Objects'>
+
+#### src/index.ts
+
+```ts
+import { useDO } from 'cl-orm';
+import { DurableObject } from 'cloudflare:workers';
+
+export class MyDurableObject extends DurableObject {
+  async fetch(request: Request): Promise<Response> {
+    const db = useDO(this.ctx.storage.sql);
+
+    await db.query('SELECT 1');
+    // ...
+  }
+}
+```
+
+#### wrangler.jsonc
+
+```json
+{
+  "name": "my-worker",
+  "main": "src/index.ts",
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "MY_DO",
+        "class_name": "MyDurableObject"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["MyDurableObject"]
+    }
+  ]
+}
+```
+
+  </TabItem>
+</Tabs>
+
+<hr />
+
+## Documentation
+
+See detailed specifications and usage in [**Documentation**](/docs/category/documentation) section.
+
+<hr />
+
+## D1 vs Durable Objects
+
+**CL ORM** provides a unified **Connection** interface across both drivers. The same API works identically regardless of the underlying database.
+
+> The following examples are based on **TypeScript** and **ES Modules**.
+
+### Returning a single user
+
+```ts
+import type { Connection } from 'cl-orm';
+import { OP } from 'cl-orm';
+
+export const getUser = async (db: Connection, id: number) => {
+  const user = await db.select({
+    table: 'users',
+    where: OP.eq('id', id),
+    limit: 1,
+  });
+
+  return user;
+};
+
+// Usage: await getUser(db, 15);
+```
+
+> Due to `limit: 1`, it returns a direct object with the row result or `null`.
+
+<FAQ title={<><ins>OP</ins> Explanation</>}>
+
+**OP** = Operation
+
+`OP.eq`: is **column** equal to **value**<br/>
+
+See all available operators [here](/docs/category/operators).
+
+</FAQ >
+
+<hr />
+
+### Returning enabled users based on their specializations
+
+```ts
+import type { Connection, Param } from 'cl-orm';
+import { OP } from 'cl-orm';
+
+export const getUsersBySpecializations = async (
+  db: Connection,
+  specializations: Param[]
+) => {
+  const users = await db.select({
+    table: 'users',
+    columns: ['name', 'age'],
+    where: [
+      OP.eq('status', true),
+      'AND',
+      OP.in('specialization', specializations),
+    ],
+    orderBy: ['name'],
+    limit: 10,
+  });
+
+  return users;
+};
+
+// Usage: await getUsersBySpecializations(db, ['frontend', 'backend']);
+```
+
+<FAQ title={<><ins>OP</ins> Explanation</>}>
+
+**OP** = Operation
+
+`OP.eq`: is **column** equal to **value**<br/>
+`OP.in`: is in **column** [**values**,]
+
+See all available operators [here](/docs/category/operators).
+
+</FAQ >
+
+<hr />
+
+## Acknowledgements
+
+- The operator names **eq**, **ne**, **gt**, **lt**, **gte** and **lte** are inspired by [**Sequelize**](https://sequelize.org/docs/v6/core-concepts/model-querying-basics/#operators).

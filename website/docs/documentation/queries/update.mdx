@@ -1,0 +1,61 @@
+---
+sidebar_position: 3
+---
+
+# UPDATE
+
+> For **WHERE** examples, please see the **WHERE** section.
+
+## Simple update
+
+```ts
+// highlight-start
+import { useD1 } from 'cl-orm';
+
+const db = useD1(env.DB);
+// highlight-end
+
+await db.update({
+  table: 'users',
+  set: {
+    name: 'John',
+  },
+});
+```
+
+> SQL Query
+
+```sql
+UPDATE users SET name = ?
+-- params: ['John']
+```
+
+<hr />
+
+## Update multiple columns
+
+```ts
+// highlight-start
+import { useD1 } from 'cl-orm';
+
+const db = useD1(env.DB);
+// highlight-end
+
+await db.update({
+  table: 'users',
+  set: {
+    name: 'John',
+    age: 29,
+    // highlight-start
+    // ...
+    // highlight-end
+  },
+});
+```
+
+> SQL Query
+
+```sql
+UPDATE users SET name = ?, age = ?
+-- params: ['John', 29]
+```

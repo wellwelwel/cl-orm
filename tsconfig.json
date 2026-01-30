@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    "target": "es2022",
+    "lib": ["es2022", "DOM"],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "forceConsistentCasingInFileNames": true,
+    "isolatedModules": true,
+    "allowJs": false,
+    "strict": true,
+    "alwaysStrict": true,
+    "strictFunctionTypes": true,
+    "strictNullChecks": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": false,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "noImplicitAny": true,
+    "removeComments": false,
+    "sourceMap": false,
+    "esModuleInterop": true,
+    "noEmitOnError": true,
+    "declaration": true,
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
+    "outDir": "lib",
+    "declarationDir": "lib",
+    "typeRoots": [
+      "node_modules/@types",
+      "node_modules/@cloudflare/workers-types"
+    ]
+  },
+  "include": ["src", "test"]
+}

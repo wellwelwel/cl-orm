@@ -1,0 +1,123 @@
+---
+sidebar_position: 1
+tags: [Connection, D1, Durable Objects]
+---
+
+import TabItem from '@theme/TabItem';
+import Tabs from '@theme/Tabs';
+
+# Connection
+
+**CL ORM** provides two driver functions to create a unified **Connection** interface.
+
+## D1
+
+```ts
+import { useD1 } from 'cl-orm';
+
+const db = useD1(env.DB);
+```
+
+> `env.DB` is a `D1Database` binding from your Cloudflare Worker.
+
+## Durable Objects
+
+```ts
+import { useDO } from 'cl-orm';
+
+const db = useDO(ctx.storage.sql);
+```
+
+> `ctx.storage.sql` is a `SqlStorage` from your Durable Object.
+
+---
+
+## Available Connection Methods
+
+- [**insert**](/docs/documentation/queries/insert)
+- [**select**](/docs/documentation/queries/select)
+- [**update**](/docs/documentation/queries/update)
+- [**delete**](/docs/documentation/queries/delete)
+- **query** — execute raw SQL queries directly
+
+---
+
+## Raw Query
+
+You can execute raw SQL queries using the `query` method:
+
+<Tabs>
+  <TabItem value='D1' default>
+
+```ts
+import { useD1 } from 'cl-orm';
+
+const db = useD1(env.DB);
+
+const { rows, meta } = await db.query<{ id: number; name: string }>(
+  'SELECT * FROM users WHERE id = ?',
+  [1]
+);
+
+const user = rows[0] || null;
+```
+
+  </TabItem>
+  <TabItem value='Durable Objects'>
+
+```ts
+import { useDO } from 'cl-orm';
+
+const db = useDO(ctx.storage.sql);
+
+const { rows, meta } = await db.query<{ id: number; name: string }>(
+  'SELECT * FROM users WHERE id = ?',
+  [1]
+);
+
+const user = rows[0] || null;
+```
+
+  </TabItem>
+</Tabs>
+
+---
+
+## Raw WHERE
+
+You can use a raw string as the `where` clause in `select`, `update` and `delete`, passing the params manually:
+
+<Tabs>
+  <TabItem value='D1' default>
+
+```ts
+import { useD1 } from 'cl-orm';
+
+const db = useD1(env.DB);
+
+const user = await db.select<{ id: number; name: string }>({
+  table: 'users',
+  where: 'id = ?',
+  params: [1],
+  limit: 1,
+});
+```
+
+  </TabItem>
+  <TabItem value='Durable Objects'>
+
+```ts
+import { useDO } from 'cl-orm';
+
+const db = useDO(ctx.storage.sql);
+
+const user = await db.select<{ id: number; name: string }>({
+  table: 'users',
+  where: 'id = ?',
+  params: [1],
+  limit: 1,
+});
+```
+
+  </TabItem>
+</Tabs>
