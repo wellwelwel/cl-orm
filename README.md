@@ -82,7 +82,7 @@ import { OP } from 'cl-orm';
 
 export const getUser = async (db: Connection, id: number) => {
   const user = await db.select({
-    table: 'users',
+    from: 'users',
     where: OP.eq('id', id),
     limit: 1,
   });

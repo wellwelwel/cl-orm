@@ -96,7 +96,7 @@ import { useD1 } from 'cl-orm';
 const db = useD1(env.DB);
 
 const user = await db.select<{ id: number; name: string }>({
-  table: 'users',
+  from: 'users',
   where: 'id = ?',
   params: [1],
   limit: 1,
@@ -112,7 +112,7 @@ import { useDO } from 'cl-orm';
 const db = useDO(ctx.storage.sql);
 
 const user = await db.select<{ id: number; name: string }>({
-  table: 'users',
+  from: 'users',
   where: 'id = ?',
   params: [1],
   limit: 1,
