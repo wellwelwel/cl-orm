@@ -4,32 +4,32 @@ import { OP } from '../../src/queries/where/operators.js';
 
 describe('buildSelect', () => {
   it('should build a basic select', () => {
-    const result = buildSelect({ table: 'users' });
+    const result = buildSelect({ from: 'users' });
     assert.strictEqual(result.sql, 'SELECT * FROM `users`');
     assert.deepStrictEqual(result.params, []);
   });
 
   it('should build select with specific columns', () => {
-    const result = buildSelect({ table: 'users', columns: ['name', 'email'] });
+    const result = buildSelect({ from: 'users', columns: ['name', 'email'] });
     assert.strictEqual(result.sql, 'SELECT `name`, `email` FROM `users`');
     assert.deepStrictEqual(result.params, []);
   });
 
   it('should build select with string column', () => {
-    const result = buildSelect({ table: 'users', columns: 'COUNT(*)' });
+    const result = buildSelect({ from: 'users', columns: 'COUNT(*)' });
     assert.strictEqual(result.sql, 'SELECT COUNT(*) FROM `users`');
     assert.deepStrictEqual(result.params, []);
   });
 
   it('should build select with distinct', () => {
-    const result = buildSelect({ table: 'users', distinct: true });
+    const result = buildSelect({ from: 'users', distinct: true });
     assert.strictEqual(result.sql, 'SELECT DISTINCT * FROM `users`');
     assert.deepStrictEqual(result.params, []);
   });
 
   it('should build select with where clause', () => {
     const result = buildSelect({
-      table: 'users',
+      from: 'users',
       where: OP.eq('name', 'Alice'),
     });
     assert.strictEqual(result.sql, 'SELECT * FROM `users` WHERE `name` = ?');
@@ -37,19 +37,19 @@ describe('buildSelect', () => {
   });
 
   it('should build select with limit', () => {
-    const result = buildSelect({ table: 'users', limit: 10 });
+    const result = buildSelect({ from: 'users', limit: 10 });
     assert.strictEqual(result.sql, 'SELECT * FROM `users` LIMIT ?');
     assert.deepStrictEqual(result.params, [10]);
   });
 
   it('should build select with offset', () => {
-    const result = buildSelect({ table: 'users', limit: 10, offset: 5 });
+    const result = buildSelect({ from: 'users', limit: 10, offset: 5 });
     assert.strictEqual(result.sql, 'SELECT * FROM `users` LIMIT ? OFFSET ?');
     assert.deepStrictEqual(result.params, [10, 5]);
   });
 
   it('should build select with orderBy', () => {
-    const result = buildSelect({ table: 'users', orderBy: ['name', 'DESC'] });
+    const result = buildSelect({ from: 'users', orderBy: ['name', 'DESC'] });
     assert.strictEqual(
       result.sql,
       'SELECT * FROM `users` ORDER BY `name` DESC'
@@ -58,20 +58,20 @@ describe('buildSelect', () => {
   });
 
   it('should build select with orderBy default ASC', () => {
-    const result = buildSelect({ table: 'users', orderBy: ['name'] });
+    const result = buildSelect({ from: 'users', orderBy: ['name'] });
     assert.strictEqual(result.sql, 'SELECT * FROM `users` ORDER BY `name` ASC');
     assert.deepStrictEqual(result.params, []);
   });
 
   it('should build select with groupBy', () => {
-    const result = buildSelect({ table: 'users', groupBy: 'name' });
+    const result = buildSelect({ from: 'users', groupBy: 'name' });
     assert.strictEqual(result.sql, 'SELECT * FROM `users` GROUP BY `name`');
     assert.deepStrictEqual(result.params, []);
   });
 
   it('should build select with join', () => {
     const result = buildSelect({
-      table: 'users',
+      from: 'users',
       join: {
         type: 'inner',
         table: 'orders',
@@ -87,7 +87,7 @@ describe('buildSelect', () => {
 
   it('should build select with outer join', () => {
     const result = buildSelect({
-      table: 'users',
+      from: 'users',
       join: {
         type: 'left',
         table: 'orders',
@@ -104,7 +104,7 @@ describe('buildSelect', () => {
 
   it('should build select with multiple joins', () => {
     const result = buildSelect({
-      table: 'users',
+      from: 'users',
       join: [
         {
           type: 'inner',
@@ -127,7 +127,7 @@ describe('buildSelect', () => {
 
   it('should build select with params', () => {
     const result = buildSelect({
-      table: 'users',
+      from: 'users',
       where: 'name = ?',
       params: ['Alice'],
     });

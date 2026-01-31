@@ -5,7 +5,7 @@ import { buildWhere } from './where/where.js';
 export const buildDelete = (
   options: DeleteOptions
 ): { sql: string; params: unknown[] } => {
-  const parts: string[] = ['DELETE FROM', quoteIdentifier(options.table)];
+  const parts: string[] = ['DELETE FROM', quoteIdentifier(options.from)];
   const params: unknown[] = [];
 
   if (options.where) {

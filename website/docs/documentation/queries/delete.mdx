@@ -16,7 +16,7 @@ const db = useD1(env.DB);
 // highlight-end
 
 await db.delete({
-  table: 'temp',
+  from: 'temp',
 });
 ```
 
@@ -38,7 +38,7 @@ const db = useD1(env.DB);
 // highlight-end
 
 await db.delete({
-  table: 'test',
+  from: 'test',
   limit: 1,
 });
 ```

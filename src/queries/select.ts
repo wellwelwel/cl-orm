@@ -26,7 +26,7 @@ export const buildSelect = (
   if (options.distinct) parts.push('DISTINCT');
 
   parts.push(buildColumns(options.columns));
-  parts.push('FROM', quoteIdentifier(options.table));
+  parts.push('FROM', quoteIdentifier(options.from));
 
   if (options.join) {
     const joins = Array.isArray(options.join) ? options.join : [options.join];
