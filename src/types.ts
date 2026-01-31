@@ -29,9 +29,9 @@ export type JoinOptions = {
 };
 
 export type SelectOptions = {
-  distinct?: boolean;
   columns?: string | string[];
-  table: string;
+  distinct?: boolean;
+  from: string;
   join?: JoinOptions | JoinOptions[];
   where?: WhereClause;
   limit?: number;
@@ -49,7 +49,7 @@ export type UpdateOptions = {
 };
 
 export type DeleteOptions = {
-  table: string;
+  from: string;
   where?: WhereClause;
   limit?: number;
   params?: unknown[];

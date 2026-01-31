@@ -21,7 +21,7 @@ import { OP, useD1 } from 'cl-orm';
 const db = useD1(env.DB);
 
 await db.select({
-  table: 'users',
+  from: 'users',
   // highlight-end
   where: OP.eq('id', 15),
   // highlight-start
@@ -53,7 +53,7 @@ import { OP, useD1 } from 'cl-orm';
 const db = useD1(env.DB);
 
 await db.select({
-  table: 'users',
+  from: 'users',
   // highlight-end
   where: [OP.in('id', [15, 30]), 'AND', OP.eq('status', 1)],
   // highlight-start
@@ -85,7 +85,7 @@ import { OP, useD1 } from 'cl-orm';
 const db = useD1(env.DB);
 
 await db.select({
-  table: 'users',
+  from: 'users',
   // highlight-end
   where: [[OP.lt('age', 18)], 'OR', [OP.eq('status', 'locked')]],
   // highlight-start
@@ -117,7 +117,7 @@ import { OP, useD1 } from 'cl-orm';
 const db = useD1(env.DB);
 
 await db.select({
-  table: 'users',
+  from: 'users',
   // highlight-end
   where: [
     [OP.gte('age', 18), 'AND', OP.eq('status', 'locked')],
@@ -155,7 +155,7 @@ import { useD1 } from 'cl-orm';
 const db = useD1(env.DB);
 
 await db.select({
-  table: 'users',
+  from: 'users',
   // highlight-end
   where: 'createdAt > ?',
   params: ['2024-01-01'],

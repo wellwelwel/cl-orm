@@ -35,7 +35,7 @@ export class MyDurableObject extends DurableObject<Env> {
 
   async selectUsers(limit?: number) {
     return this.db.select({
-      table: 'users',
+      from: 'users',
       ...(limit ? { limit: limit as 1 } : {}),
     });
   }
@@ -50,7 +50,7 @@ export class MyDurableObject extends DurableObject<Env> {
 
   async deleteUser(name: string) {
     return this.db.delete({
-      table: 'users',
+      from: 'users',
       where: OP.eq('name', name),
     });
   }

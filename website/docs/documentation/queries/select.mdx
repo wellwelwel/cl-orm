@@ -19,7 +19,7 @@ const db = useD1(env.DB);
  * @return T[]
  */
 await db.select({
-  table: 'test',
+  from: 'test',
 });
 ```
 
@@ -44,8 +44,8 @@ const db = useD1(env.DB);
  * @return T[]
  */
 await db.select({
-  table: 'test',
   columns: ['foo'],
+  from: 'test',
 });
 ```
 
@@ -70,8 +70,8 @@ const db = useD1(env.DB);
  * @return T[]
  */
 await db.select({
-  table: 'test',
   columns: 'COUNT(*) AS total',
+  from: 'test',
 });
 ```
 
@@ -96,7 +96,7 @@ const db = useD1(env.DB);
  * @return T[]
  */
 await db.select({
-  table: 'test',
+  from: 'test',
   limit: 10,
 });
 ```
@@ -122,7 +122,7 @@ const db = useD1(env.DB);
 // highlight-end
 
 await db.select({
-  table: 'test',
+  from: 'test',
   limit: 10,
   offset: 20,
 });
@@ -149,7 +149,7 @@ const db = useD1(env.DB);
 // highlight-end
 
 await db.select({
-  table: 'test',
+  from: 'test',
   orderBy: ['id'],
   // orderBy: ['id', 'ASC'],
   // orderBy: ['id', 'DESC'],
@@ -175,7 +175,7 @@ const db = useD1(env.DB);
 
 await db.select({
   columns: 'age, COUNT(*) AS total',
-  table: 'users',
+  from: 'users',
   groupBy: 'age',
 });
 ```
@@ -199,7 +199,7 @@ const db = useD1(env.DB);
 
 await db.select({
   columns: ['users.name', 'users.age'],
-  table: 'preferences',
+  from: 'preferences',
   join: {
     type: 'left',
     table: 'users',
@@ -227,9 +227,9 @@ LEFT JOIN users ON preferences.userId = users.id
 
 ```ts
 export type SelectOptions = {
-  distinct?: boolean;
   columns?: string | string[];
-  table: string;
+  distinct?: boolean;
+  from: string;
   join?: JoinOptions | JoinOptions[];
   where?: WhereClause;
   limit?: number;
@@ -272,14 +272,14 @@ interface User {
  * @return User[]
  */
 const users = await db.select<User>({
-  table: 'test',
+  from: 'test',
 });
 
 /**
  * @return User | null
  */
 const user = await db.select<User>({
-  table: 'test',
+  from: 'test',
   limit: 1,
 });
 ```

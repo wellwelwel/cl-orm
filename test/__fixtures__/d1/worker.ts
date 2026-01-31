@@ -37,7 +37,7 @@ export default {
       case '/select': {
         const limit = url.searchParams.get('limit');
         const rows = await db.select({
-          table: 'users',
+          from: 'users',
           ...(limit ? { limit: Number(limit) } : {}),
         });
         return Response.json({ rows });
@@ -57,7 +57,7 @@ export default {
       case '/delete': {
         const name = url.searchParams.get('name')!;
         const meta = await db.delete({
-          table: 'users',
+          from: 'users',
           where: OP.eq('name', name),
         });
         return Response.json(meta);
