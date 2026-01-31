@@ -52,7 +52,7 @@ await db.select({
 > SQL Query
 
 ```sql
-SELECT foo FROM test
+SELECT `foo` FROM test
 ```
 
 <hr />
@@ -159,7 +159,7 @@ await db.select({
 > SQL Query
 
 ```sql
-SELECT * FROM test ORDER BY id ASC
+SELECT * FROM test ORDER BY `id` ASC
 ```
 
 <hr />
@@ -183,7 +183,7 @@ await db.select({
 > SQL Query
 
 ```sql
-SELECT age, COUNT(*) AS total FROM users GROUP BY age
+SELECT `age`, COUNT(*) AS total FROM users GROUP BY `age`
 ```
 
 <hr />
@@ -227,8 +227,8 @@ LEFT JOIN users ON preferences.userId = users.id
 
 ```ts
 export type SelectOptions = {
-  columns?: string | string[];
   distinct?: boolean;
+  columns?: string | string[];
   from: string;
   join?: JoinOptions | JoinOptions[];
   where?: WhereClause;

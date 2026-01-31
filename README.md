@@ -1,10 +1,16 @@
+[npm-image]: https://img.shields.io/npm/v/cl-orm.svg
+[npm-url]: https://npmjs.org/package/cl-orm
+[downloads-image]: https://img.shields.io/npm/dt/cl-orm.svg
+[downloads-url]: https://npmjs.org/package/cl-orm
+
 # CL ORM
 
 <img align="right" width="64" height="64" alt="Logo" src="website/static/img/favicon.svg">
 
-A lightweight **ORM** for **Cloudflare Workers** (**D1** and **Durable Objects**), designed to be intuitive, productive and focused on essential functionality.
+⛅️ A lightweight **ORM** for **Cloudflare Workers** (**D1** and **Durable Objects**), designed to be intuitive and productive, focused on essential functionality.
 
-- This project supports **Cloudflare D1** and **Durable Objects SQL Storage** as database drivers.
+[![NPM Version][npm-image]][npm-url]
+[![NPM Downloads][downloads-image]][downloads-url]
 
 ---
 
@@ -14,10 +20,10 @@ A lightweight **ORM** for **Cloudflare Workers** (**D1** and **Durable Objects**
 
 ## Why
 
-- Supports both **Cloudflare D1** and **Durable Objects** SQL Storage.
+- Supports both **Cloudflare D1** and **Durable Objects SQL Storage**.
 - Unified **Connection** interface across different database drivers.
-- An user-friendly ORM for **INSERT**, **SELECT**, **UPDATE**, **DELETE** and **WHERE** clauses.
-- Automatic **Prepared Statements** (including **LIMIT** and **OFFSET**).
+- User-friendly **ORM** for **INSERT**, **SELECT**, **UPDATE**, **DELETE** and **WHERE** clauses.
+- Automatic **Prepared Statements**.
 
 ---
 

@@ -28,7 +28,7 @@ export default {
         const name = url.searchParams.get('name')!;
         const email = url.searchParams.get('email')!;
         const meta = await db.insert({
-          table: 'users',
+          into: 'users',
           values: { name, email },
         });
         return Response.json(meta);
@@ -38,7 +38,7 @@ export default {
         const limit = url.searchParams.get('limit');
         const rows = await db.select({
           from: 'users',
-          ...(limit ? { limit: Number(limit) } : {}),
+          ...(limit ? { limit: Number(limit) } : Object.create(null)),
         });
         return Response.json({ rows });
       }

@@ -246,4 +246,90 @@ describe('buildWhere', () => {
     assert.strictEqual(result.sql, '`x` = ?');
     assert.deepStrictEqual(result.params, [1]);
   });
+
+  it('should handle OP.AND as a single condition', () => {
+    const result = buildWhere(
+      OP.AND(OP.gte('age', 18), OP.eq('status', 'active'))
+    );
+    assert.strictEqual(result.sql, '(`age` >= ? AND `status` = ?)');
+    assert.deepStrictEqual(result.params, [18, 'active']);
+  });
+
+  it('should handle OP.OR as a single condition', () => {
+    const result = buildWhere(
+      OP.OR(OP.eq('status', 'active'), OP.eq('status', 'pending'))
+    );
+    assert.strictEqual(result.sql, '(`status` = ? OR `status` = ?)');
+    assert.deepStrictEqual(result.params, ['active', 'pending']);
+  });
+
+  it('should handle OP.XOR as a single condition', () => {
+    const result = buildWhere(
+      OP.XOR(OP.eq('isAdmin', true), OP.eq('isModerator', true))
+    );
+    assert.strictEqual(result.sql, '(`isAdmin` = ? XOR `isModerator` = ?)');
+    assert.deepStrictEqual(result.params, [true, true]);
+  });
+
+  it('should handle nested OP.AND inside OP.OR', () => {
+    const result = buildWhere(
+      OP.OR(
+        OP.AND(OP.gte('age', 18), OP.eq('status', 'locked')),
+        OP.AND(OP.lt('age', 18), OP.eq('status', 'enabled'))
+      )
+    );
+    assert.strictEqual(
+      result.sql,
+      '((`age` >= ? AND `status` = ?) OR (`age` < ? AND `status` = ?))'
+    );
+    assert.deepStrictEqual(result.params, [18, 'locked', 18, 'enabled']);
+  });
+
+  it('should handle OP.AND with three conditions', () => {
+    const result = buildWhere(
+      OP.AND(OP.eq('a', 1), OP.eq('b', 2), OP.eq('c', 3))
+    );
+    assert.strictEqual(result.sql, '(`a` = ? AND `b` = ? AND `c` = ?)');
+    assert.deepStrictEqual(result.params, [1, 2, 3]);
+  });
+
+  it('should handle OP.OR mixed with array connector', () => {
+    const result = buildWhere([
+      OP.OR(OP.eq('a', 1), OP.eq('b', 2)),
+      'AND',
+      OP.eq('c', 3),
+    ]);
+    assert.strictEqual(result.sql, '(`a` = ? OR `b` = ?) AND `c` = ?');
+    assert.deepStrictEqual(result.params, [1, 2, 3]);
+  });
+
+  it('should handle object shorthand with a single key', () => {
+    const result = buildWhere({ status: 'active' });
+    assert.strictEqual(result.sql, '`status` = ?');
+    assert.deepStrictEqual(result.params, ['active']);
+  });
+
+  it('should handle object shorthand with multiple keys', () => {
+    const result = buildWhere({ status: 'active', role: 'admin' });
+    assert.strictEqual(result.sql, '`status` = ? AND `role` = ?');
+    assert.deepStrictEqual(result.params, ['active', 'admin']);
+  });
+
+  it('should handle object shorthand with numeric values', () => {
+    const result = buildWhere({ age: 18, active: 1 });
+    assert.strictEqual(result.sql, '`age` = ? AND `active` = ?');
+    assert.deepStrictEqual(result.params, [18, 1]);
+  });
+
+  it('should handle object shorthand with null value', () => {
+    const result = buildWhere({ status: 'active', deletedAt: null });
+    assert.strictEqual(result.sql, '`status` = ? AND `deletedAt` = ?');
+    assert.deepStrictEqual(result.params, ['active', null]);
+  });
+
+  it('should handle object shorthand with boolean value', () => {
+    const result = buildWhere({ active: true });
+    assert.strictEqual(result.sql, '`active` = ?');
+    assert.deepStrictEqual(result.params, [true]);
+  });
 });
