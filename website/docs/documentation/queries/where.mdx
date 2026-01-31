@@ -62,7 +62,7 @@ await db.select({
 
 ```sql
 -- highlight-start
-SELECT * FROM users
+SELECT * FROM `users`
 -- highlight-end
 WHERE `id` = ?
 
@@ -119,7 +119,7 @@ await db.select({
 
 ```sql
 -- highlight-start
-SELECT * FROM users
+SELECT * FROM `users`
 -- highlight-end
 WHERE `status` = ? AND `role` = ?
 
@@ -199,7 +199,7 @@ await db.select({
 
 ```sql
 -- highlight-start
-SELECT * FROM users
+SELECT * FROM `users`
 -- highlight-end
 WHERE `id` IN (?, ?) AND `status` = ?
 
@@ -276,7 +276,7 @@ await db.select({
 
 ```sql
 -- highlight-start
-SELECT * FROM users
+SELECT * FROM `users`
 -- highlight-end
 WHERE (`age` < ?) OR (`status` = ?)
 
@@ -360,7 +360,7 @@ await db.select({
 
 ```sql
 -- highlight-start
-SELECT * FROM users
+SELECT * FROM `users`
 -- highlight-end
 WHERE (`age` >= ? AND `status` = ?) OR (`age` < ? AND `status` = ?);
 

@@ -79,7 +79,7 @@ await db.select({
 > SQL Query
 
 ```sql
-SELECT * FROM users WHERE (`age` >= ? AND `status` = ?)
+SELECT * FROM `users` WHERE (`age` >= ? AND `status` = ?)
 
 -- params [18, 'active']
 ```
@@ -155,7 +155,7 @@ await db.select({
 > SQL Query
 
 ```sql
-SELECT * FROM users WHERE (`status` = ?) OR (`status` = ?)
+SELECT * FROM `users` WHERE (`status` = ?) OR (`status` = ?)
 
 -- params ['active', 'pending']
 ```
@@ -231,7 +231,7 @@ await db.select({
 > SQL Query
 
 ```sql
-SELECT * FROM users WHERE (`isAdmin` = ?) XOR (`isModerator` = ?)
+SELECT * FROM `users` WHERE (`isAdmin` = ?) XOR (`isModerator` = ?)
 
 -- params [true, true]
 ```
@@ -310,7 +310,7 @@ await db.select({
 > SQL Query
 
 ```sql
-SELECT * FROM users WHERE ((`age` >= ? AND `status` = ?)) OR ((`age` < ? AND `status` = ?))
+SELECT * FROM `users` WHERE ((`age` >= ? AND `status` = ?)) OR ((`age` < ? AND `status` = ?))
 
 -- params [18, 'locked', 18, 'enabled']
 ```

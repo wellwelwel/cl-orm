@@ -26,7 +26,7 @@ await db.select({
 > SQL Query
 
 ```sql
-SELECT * FROM test
+SELECT * FROM `test`
 ```
 
 <hr />
@@ -52,7 +52,7 @@ await db.select({
 > SQL Query
 
 ```sql
-SELECT `foo` FROM test
+SELECT `foo` FROM `test`
 ```
 
 <hr />
@@ -78,7 +78,7 @@ await db.select({
 > SQL Query
 
 ```sql
-SELECT COUNT(*) AS total FROM test
+SELECT COUNT(*) AS total FROM `test`
 ```
 
 <hr />
@@ -104,7 +104,7 @@ await db.select({
 > SQL Query
 
 ```sql
-SELECT * FROM test LIMIT ?
+SELECT * FROM `test` LIMIT ?
 -- params: [10]
 ```
 
@@ -131,7 +131,7 @@ await db.select({
 > SQL Query
 
 ```sql
-SELECT * FROM test LIMIT ? OFFSET ?
+SELECT * FROM `test` LIMIT ? OFFSET ?
 -- params: [10, 20]
 ```
 
@@ -159,7 +159,7 @@ await db.select({
 > SQL Query
 
 ```sql
-SELECT * FROM test ORDER BY `id` ASC
+SELECT * FROM `test` ORDER BY `id` ASC
 ```
 
 <hr />
@@ -183,7 +183,7 @@ await db.select({
 > SQL Query
 
 ```sql
-SELECT `age`, COUNT(*) AS total FROM users GROUP BY `age`
+SELECT `age`, COUNT(*) AS total FROM `users` GROUP BY `age`
 ```
 
 <hr />
@@ -214,9 +214,9 @@ await db.select({
 > SQL Query
 
 ```sql
-SELECT users.name, users.age
-FROM preferences
-LEFT JOIN users ON preferences.userId = users.id
+SELECT `users`.`name`, `users`.`age`
+FROM `preferences`
+LEFT JOIN `users` ON `preferences`.`userId` = `users`.`id`
 ```
 
 - You can insert multiple `JOIN` by using them within an array.

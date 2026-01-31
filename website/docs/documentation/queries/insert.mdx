@@ -25,7 +25,7 @@ await db.insert({
 > SQL Query
 
 ```sql
-INSERT INTO test (`column1`, `column2`) VALUES (?, ?)
+INSERT INTO `test` (`column1`, `column2`) VALUES (?, ?)
 -- params: ['foo', 1]
 ```
 
@@ -58,6 +58,6 @@ await db.insert({
 > SQL Query
 
 ```sql
-INSERT INTO test (`column1`, `column2`) VALUES (?, ?), (?, ?)
+INSERT INTO `test` (`column1`, `column2`) VALUES (?, ?), (?, ?)
 -- params: ['foo', 1,  'bar', 2]
 ```

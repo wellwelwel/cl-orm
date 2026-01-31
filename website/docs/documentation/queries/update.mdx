@@ -26,7 +26,7 @@ await db.update({
 > SQL Query
 
 ```sql
-UPDATE users SET `name` = ?
+UPDATE `users` SET `name` = ?
 -- params: ['John']
 ```
 
@@ -56,6 +56,6 @@ await db.update({
 > SQL Query
 
 ```sql
-UPDATE users SET `name` = ?, `age` = ?
+UPDATE `users` SET `name` = ?, `age` = ?
 -- params: ['John', 29]
 ```
