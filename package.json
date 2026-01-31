@@ -1,7 +1,7 @@
 {
   "name": "cl-orm",
   "main": "./lib/index.js",
-  "version": "0.1.2",
+  "version": "1.0.0",
   "description": "A lightweight ORM for Cloudflare Workers (D1 and Durable Objects), designed to be intuitive, productive and focused on essential functionality",
   "homepage": "https://wellwelwel.github.io/cl-orm/docs/",
   "license": "MIT",
