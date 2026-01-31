@@ -151,14 +151,19 @@ See detailed specifications and usage in [**Documentation**](/docs/category/docu
 
 ### Returning a single user
 
+<Tabs>
+  <TabItem value='OP' default>
+
 ```ts
 import type { Connection } from 'cl-orm';
 import { OP } from 'cl-orm';
 
+const { eq } = OP;
+
 export const getUser = async (db: Connection, id: number) => {
   const user = await db.select({
     from: 'users',
-    where: OP.eq('id', id),
+    where: eq('id', id),
     limit: 1,
   });
 
@@ -167,6 +172,29 @@ export const getUser = async (db: Connection, id: number) => {
 
 // Usage: await getUser(db, 15);
 ```
+
+  </TabItem>
+  <TabItem value='Manual'>
+
+```ts
+import type { Connection } from 'cl-orm';
+
+export const getUser = async (db: Connection, id: number) => {
+  const user = await db.select({
+    from: 'users',
+    where: '`id` = ?',
+    params: [id],
+    limit: 1,
+  });
+
+  return user;
+};
+
+// Usage: await getUser(db, 15);
+```
+
+  </TabItem>
+</Tabs>
 
 > Due to `limit: 1`, it returns a direct object with the row result or `null`.
 
@@ -184,9 +212,14 @@ See all available operators [here](/docs/category/operators).
 
 ### Returning enabled users based on their specializations
 
+<Tabs>
+  <TabItem value='OP.AND' default>
+
 ```ts
 import type { Connection, Param } from 'cl-orm';
 import { OP } from 'cl-orm';
+
+const { AND, eq, in: IN } = OP;
 
 export const getUsersBySpecializations = async (
   db: Connection,
@@ -195,11 +228,7 @@ export const getUsersBySpecializations = async (
   const users = await db.select({
     columns: ['name', 'age'],
     from: 'users',
-    where: [
-      OP.eq('status', true),
-      'AND',
-      OP.in('specialization', specializations),
-    ],
+    where: AND(eq('status', true), IN('specialization', specializations)),
     orderBy: ['name'],
     limit: 10,
   });
@@ -209,6 +238,61 @@ export const getUsersBySpecializations = async (
 
 // Usage: await getUsersBySpecializations(db, ['frontend', 'backend']);
 ```
+
+  </TabItem>
+  <TabItem value='Array'>
+
+```ts
+import type { Connection, Param } from 'cl-orm';
+import { OP } from 'cl-orm';
+
+const { eq, in: IN } = OP;
+
+export const getUsersBySpecializations = async (
+  db: Connection,
+  specializations: Param[]
+) => {
+  const users = await db.select({
+    columns: ['name', 'age'],
+    from: 'users',
+    where: [eq('status', true), 'AND', IN('specialization', specializations)],
+    orderBy: ['name'],
+    limit: 10,
+  });
+
+  return users;
+};
+
+// Usage: await getUsersBySpecializations(db, ['frontend', 'backend']);
+```
+
+  </TabItem>
+  <TabItem value='Manual'>
+
+```ts
+import type { Connection, Param } from 'cl-orm';
+
+export const getUsersBySpecializations = async (
+  db: Connection,
+  specializations: Param[]
+) => {
+  const users = await db.select({
+    columns: ['name', 'age'],
+    from: 'users',
+    where: `\`status\` = ? AND \`specialization\` IN (${specializations.map(() => '?').join(', ')})`,
+    params: [true, ...specializations],
+    orderBy: ['name'],
+    limit: 10,
+  });
+
+  return users;
+};
+
+// Usage: await getUsersBySpecializations(db, ['frontend', 'backend']);
+```
+
+  </TabItem>
+</Tabs>
 
 <FAQ title={<><ins>OP</ins> Explanation</>}>
 

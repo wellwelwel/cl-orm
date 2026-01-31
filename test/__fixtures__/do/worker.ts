@@ -28,7 +28,7 @@ export class MyDurableObject extends DurableObject<Env> {
 
   async insertUser(name: string, email: string) {
     return this.db.insert({
-      table: 'users',
+      into: 'users',
       values: { name, email },
     });
   }
@@ -36,7 +36,7 @@ export class MyDurableObject extends DurableObject<Env> {
   async selectUsers(limit?: number) {
     return this.db.select({
       from: 'users',
-      ...(limit ? { limit: limit as 1 } : {}),
+      ...(limit ? { limit: limit as 1 } : Object.create(null)),
     });
   }
 

@@ -2,7 +2,7 @@ import { assert, describe, it } from 'poku';
 import { prepare } from '../../src/drivers/_utils.js';
 
 describe('prepare', () => {
-  const mockBound = {} as D1PreparedStatement;
+  const mockBound = Object.create(null) as D1PreparedStatement;
   const mockStatement = {
     bind: (..._params: unknown[]) => mockBound,
   } as D1PreparedStatement;

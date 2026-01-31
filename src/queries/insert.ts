@@ -16,7 +16,7 @@ export const buildInsert = (
   const params = rows.flatMap((row) => columns.map((col) => row[col]));
 
   return {
-    sql: `INSERT INTO ${quoteIdentifier(options.table)} (${columnsSql}) VALUES ${valuesSql}`,
+    sql: `INSERT INTO ${quoteIdentifier(options.into)} (${columnsSql}) VALUES ${valuesSql}`,
     params,
   };
 };

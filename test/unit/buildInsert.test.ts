@@ -4,7 +4,7 @@ import { buildInsert } from '../../src/queries/insert.js';
 describe('buildInsert', () => {
   it('should build a single row insert', () => {
     const result = buildInsert({
-      table: 'users',
+      into: 'users',
       values: { name: 'Alice', email: 'a@b.com' },
     });
     assert.strictEqual(
@@ -16,7 +16,7 @@ describe('buildInsert', () => {
 
   it('should build a multi-row insert', () => {
     const result = buildInsert({
-      table: 'users',
+      into: 'users',
       values: [
         { name: 'Alice', email: 'a@b.com' },
         { name: 'Bob', email: 'b@b.com' },

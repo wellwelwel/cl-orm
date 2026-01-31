@@ -16,7 +16,7 @@ export type WhereClause = string | Condition | WhereItem[] | WhereShorthand;
 type Values = Record<string, unknown>;
 
 export type InsertOptions = {
-  table: string;
+  into: string;
   values: Values | Values[];
 };
 
@@ -31,8 +31,8 @@ export type JoinOptions = {
 };
 
 export type SelectOptions = {
-  columns?: string | string[];
   distinct?: boolean;
+  columns?: string | string[];
   from: string;
   join?: JoinOptions | JoinOptions[];
   where?: WhereClause;

@@ -66,7 +66,7 @@ const db = useD1(env.DB);
 await db.select({
   from: 'users',
   // highlight-end
-  where: 'age >= ? AND status = ?',
+  where: '`age` >= ? AND `status` = ?',
   params: [18, 'active'],
   // highlight-start
 });
@@ -142,7 +142,7 @@ const db = useD1(env.DB);
 await db.select({
   from: 'users',
   // highlight-end
-  where: '(status = ?) OR (status = ?)',
+  where: '(`status` = ?) OR (`status` = ?)',
   params: ['active', 'pending'],
   // highlight-start
 });
@@ -218,7 +218,7 @@ const db = useD1(env.DB);
 await db.select({
   from: 'users',
   // highlight-end
-  where: '(isAdmin = ?) XOR (isModerator = ?)',
+  where: '(`isAdmin` = ?) XOR (`isModerator` = ?)',
   params: [true, true],
   // highlight-start
 });
@@ -297,7 +297,7 @@ const db = useD1(env.DB);
 await db.select({
   from: 'users',
   // highlight-end
-  where: '(age >= ? AND status = ?) OR (age < ? AND status = ?)',
+  where: '(`age` >= ? AND `status` = ?) OR (`age` < ? AND `status` = ?)',
   params: [18, 'locked', 18, 'enabled'],
   // highlight-start
 });

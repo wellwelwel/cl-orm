@@ -48,7 +48,7 @@ const db = useD1(env.DB);
 await db.select({
   from: 'users',
   // highlight-end
-  where: 'id = ?',
+  where: '`id` = ?',
   params: [15],
   // highlight-start
 });
@@ -64,7 +64,7 @@ await db.select({
 -- highlight-start
 SELECT * FROM users
 -- highlight-end
-WHERE id = ?
+WHERE `id` = ?
 
 -- params [15]
 ```
@@ -105,7 +105,7 @@ const db = useD1(env.DB);
 await db.select({
   from: 'users',
   // highlight-end
-  where: 'status = ? AND role = ?',
+  where: '`status` = ? AND `role` = ?',
   params: ['active', 'admin'],
   // highlight-start
 });
@@ -185,7 +185,7 @@ const db = useD1(env.DB);
 await db.select({
   from: 'users',
   // highlight-end
-  where: 'id IN (?, ?) AND status = ?',
+  where: '`id` IN (?, ?) AND `status` = ?',
   params: [15, 30, 1],
   // highlight-start
 });
@@ -201,7 +201,7 @@ await db.select({
 -- highlight-start
 SELECT * FROM users
 -- highlight-end
-WHERE id IN (?, ?) AND status = ?
+WHERE `id` IN (?, ?) AND `status` = ?
 
 -- params [15, 30, 1]
 ```
@@ -262,7 +262,7 @@ const db = useD1(env.DB);
 await db.select({
   from: 'users',
   // highlight-end
-  where: '(age < ?) OR (status = ?)',
+  where: '(`age` < ?) OR (`status` = ?)',
   params: [18, 'locked'],
   // highlight-start
 });
@@ -278,7 +278,7 @@ await db.select({
 -- highlight-start
 SELECT * FROM users
 -- highlight-end
-WHERE (age < ?) OR (status = ?)
+WHERE (`age` < ?) OR (`status` = ?)
 
 -- params [18, 'locked']
 ```
@@ -346,7 +346,7 @@ const db = useD1(env.DB);
 await db.select({
   from: 'users',
   // highlight-end
-  where: '(age >= ? AND status = ?) OR (age < ? AND status = ?)',
+  where: '(`age` >= ? AND `status` = ?) OR (`age` < ? AND `status` = ?)',
   params: [18, 'locked', 18, 'enabled'],
   // highlight-start
 });
@@ -362,7 +362,7 @@ await db.select({
 -- highlight-start
 SELECT * FROM users
 -- highlight-end
-WHERE (age >= ? AND status = ?) OR (age < ? AND status = ?);
+WHERE (`age` >= ? AND `status` = ?) OR (`age` < ? AND `status` = ?);
 
 -- params [18, 'locked', 18, 'enabled']
 ```
