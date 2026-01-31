@@ -1,24 +1,118 @@
 ---
-sidebar_position: 5
+sidebar_position: 0
+tags: [OP, Operators]
 ---
 
 import TabItem from '@theme/TabItem';
 import Tabs from '@theme/Tabs';
 
-# WHERE Clauses
+# AND, OR, XOR
 
-The **WHERE** clause is essential for filtering records in `SELECT`, `UPDATE`, and `DELETE` operations.<br/>
-With **CL ORM**, you can use the [**OP**](/docs/category/operators) object to construct complex queries efficiently.
+Logical helpers to combine multiple conditions into a single group.
 
-The operator names **eq**, **ne**, **gt**, **lt**, **gte** and **lte** are inspired by [**Sequelize**](https://sequelize.org/docs/v6/core-concepts/model-querying-basics/#operators).<br />
-See all available operators [**here**](/docs/category/operators).
+## AND
 
-> The following examples apply as well to **SELECT**, **UPDATE** and **DELETE**.
+> AND(...conditions: Condition[])
 
-## Single condition
+Combines multiple conditions with `AND`, wrapping them in a group.
 
 <Tabs>
-  <TabItem value='OP' default>
+  <TabItem value='OP.AND' default>
+
+```ts
+// highlight-start
+import { OP, useD1 } from 'cl-orm';
+
+const { AND, gte, eq } = OP;
+const db = useD1(env.DB);
+
+await db.select({
+  from: 'users',
+  // highlight-end
+  where: AND(gte('age', 18), eq('status', 'active')),
+  // highlight-start
+});
+// highlight-end
+```
+
+  </TabItem>
+  <TabItem value='Array'>
+
+```ts
+// highlight-start
+import { OP, useD1 } from 'cl-orm';
+
+const { gte, eq } = OP;
+const db = useD1(env.DB);
+
+await db.select({
+  from: 'users',
+  // highlight-end
+  where: [gte('age', 18), 'AND', eq('status', 'active')],
+  // highlight-start
+});
+// highlight-end
+```
+
+  </TabItem>
+  <TabItem value='Manual'>
+
+```ts
+// highlight-start
+import { useD1 } from 'cl-orm';
+
+const db = useD1(env.DB);
+
+await db.select({
+  from: 'users',
+  // highlight-end
+  where: 'age >= ? AND status = ?',
+  params: [18, 'active'],
+  // highlight-start
+});
+// highlight-end
+```
+
+  </TabItem>
+</Tabs>
+
+> SQL Query
+
+```sql
+SELECT * FROM users WHERE (`age` >= ? AND `status` = ?)
+
+-- params [18, 'active']
+```
+
+<hr />
+
+## OR
+
+> OR(...conditions: Condition[])
+
+Combines multiple conditions with `OR`, wrapping each in a group.
+
+<Tabs>
+  <TabItem value='OP.OR' default>
+
+```ts
+// highlight-start
+import { OP, useD1 } from 'cl-orm';
+
+const { OR, eq } = OP;
+const db = useD1(env.DB);
+
+await db.select({
+  from: 'users',
+  // highlight-end
+  where: OR(eq('status', 'active'), eq('status', 'pending')),
+  // highlight-start
+});
+// highlight-end
+```
+
+  </TabItem>
+  <TabItem value='Array'>
 
 ```ts
 // highlight-start
@@ -30,7 +124,7 @@ const db = useD1(env.DB);
 await db.select({
   from: 'users',
   // highlight-end
-  where: eq('id', 15),
+  where: [eq('status', 'active'), 'OR', eq('status', 'pending')],
   // highlight-start
 });
 // highlight-end
@@ -48,8 +142,8 @@ const db = useD1(env.DB);
 await db.select({
   from: 'users',
   // highlight-end
-  where: 'id = ?',
-  params: [15],
+  where: '(status = ?) OR (status = ?)',
+  params: ['active', 'pending'],
   // highlight-start
 });
 // highlight-end
@@ -61,94 +155,33 @@ await db.select({
 > SQL Query
 
 ```sql
--- highlight-start
-SELECT * FROM users
--- highlight-end
-WHERE id = ?
+SELECT * FROM users WHERE (`status` = ?) OR (`status` = ?)
 
--- params [15]
+-- params ['active', 'pending']
 ```
 
 <hr />
 
-## Object shorthand
+## XOR
 
-You can use a plain object as a shorthand for multiple equality conditions combined with `AND`.
+> XOR(...conditions: Condition[])
 
-<Tabs>
-  <TabItem value='Object' default>
-
-```ts
-// highlight-start
-import { useD1 } from 'cl-orm';
-
-const db = useD1(env.DB);
-
-await db.select({
-  from: 'users',
-  // highlight-end
-  where: { status: 'active', role: 'admin' },
-  // highlight-start
-});
-// highlight-end
-```
-
-  </TabItem>
-  <TabItem value='Manual'>
-
-```ts
-// highlight-start
-import { useD1 } from 'cl-orm';
-
-const db = useD1(env.DB);
-
-await db.select({
-  from: 'users',
-  // highlight-end
-  where: 'status = ? AND role = ?',
-  params: ['active', 'admin'],
-  // highlight-start
-});
-// highlight-end
-```
-
-  </TabItem>
-</Tabs>
-
-> SQL Query
-
-```sql
--- highlight-start
-SELECT * FROM users
--- highlight-end
-WHERE `status` = ? AND `role` = ?
-
--- params ['active', 'admin']
-```
-
-- Each key becomes a column and each value becomes the parameter, using equality (`=`).
-- All conditions are joined with `AND`.
-
-<hr />
-
-## Multiple conditions
-
-Ensure to use **AND**, **OR**, **XOR** between each condition.
+Combines multiple conditions with `XOR`, wrapping each in a group.
 
 <Tabs>
-  <TabItem value='OP.AND' default>
+  <TabItem value='OP.XOR' default>
 
 ```ts
 // highlight-start
 import { OP, useD1 } from 'cl-orm';
 
-const { AND, in: IN, eq } = OP;
+const { XOR, eq } = OP;
 const db = useD1(env.DB);
 
 await db.select({
   from: 'users',
   // highlight-end
-  where: AND(IN('id', [15, 30]), eq('status', 1)),
+  where: XOR(eq('isAdmin', true), eq('isModerator', true)),
   // highlight-start
 });
 // highlight-end
@@ -161,13 +194,13 @@ await db.select({
 // highlight-start
 import { OP, useD1 } from 'cl-orm';
 
-const { in: IN, eq } = OP;
+const { eq } = OP;
 const db = useD1(env.DB);
 
 await db.select({
   from: 'users',
   // highlight-end
-  where: [IN('id', [15, 30]), 'AND', eq('status', 1)],
+  where: [eq('isAdmin', true), 'XOR', eq('isModerator', true)],
   // highlight-start
 });
 // highlight-end
@@ -185,8 +218,8 @@ const db = useD1(env.DB);
 await db.select({
   from: 'users',
   // highlight-end
-  where: 'id IN (?, ?) AND status = ?',
-  params: [15, 30, 1],
+  where: '(isAdmin = ?) XOR (isModerator = ?)',
+  params: [true, true],
   // highlight-start
 });
 // highlight-end
@@ -198,96 +231,14 @@ await db.select({
 > SQL Query
 
 ```sql
--- highlight-start
-SELECT * FROM users
--- highlight-end
-WHERE id IN (?, ?) AND status = ?
+SELECT * FROM users WHERE (`isAdmin` = ?) XOR (`isModerator` = ?)
 
--- params [15, 30, 1]
+-- params [true, true]
 ```
 
 <hr />
 
-## Combine conditions
-
-Ensure to use **AND**, **OR**, **XOR** between each combination.
-
-<Tabs>
-  <TabItem value='OP.OR' default>
-
-```ts
-// highlight-start
-import { OP, useD1 } from 'cl-orm';
-
-const { OR, lt, eq } = OP;
-const db = useD1(env.DB);
-
-await db.select({
-  from: 'users',
-  // highlight-end
-  where: OR(lt('age', 18), eq('status', 'locked')),
-  // highlight-start
-});
-// highlight-end
-```
-
-  </TabItem>
-  <TabItem value='Array'>
-
-```ts
-// highlight-start
-import { OP, useD1 } from 'cl-orm';
-
-const { lt, eq } = OP;
-const db = useD1(env.DB);
-
-await db.select({
-  from: 'users',
-  // highlight-end
-  where: [[lt('age', 18)], 'OR', [eq('status', 'locked')]],
-  // highlight-start
-});
-// highlight-end
-```
-
-  </TabItem>
-  <TabItem value='Manual'>
-
-```ts
-// highlight-start
-import { useD1 } from 'cl-orm';
-
-const db = useD1(env.DB);
-
-await db.select({
-  from: 'users',
-  // highlight-end
-  where: '(age < ?) OR (status = ?)',
-  params: [18, 'locked'],
-  // highlight-start
-});
-// highlight-end
-```
-
-  </TabItem>
-</Tabs>
-
-> SQL Query
-
-```sql
--- highlight-start
-SELECT * FROM users
--- highlight-end
-WHERE (age < ?) OR (status = ?)
-
--- params [18, 'locked']
-```
-
-<hr />
-
-## Combine multiple conditions
-
-Ensure to use **AND**, **OR**, **XOR** between each condition and combination.
+## Combining logical operators
 
 <Tabs>
   <TabItem value='OP.AND + OP.OR' default>
@@ -359,12 +310,7 @@ await db.select({
 > SQL Query
 
 ```sql
--- highlight-start
-SELECT * FROM users
--- highlight-end
-WHERE (age >= ? AND status = ?) OR (age < ? AND status = ?);
+SELECT * FROM users WHERE ((`age` >= ? AND `status` = ?)) OR ((`age` < ? AND `status` = ?))
 
 -- params [18, 'locked', 18, 'enabled']
 ```
-
-- You can play into depth with combined conditions by encapsulating your conditions in an array. But note that this can become complex.

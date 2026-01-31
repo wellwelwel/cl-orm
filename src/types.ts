@@ -9,7 +9,9 @@ export type Connector = 'AND' | 'OR' | 'XOR' | 'NOT';
 
 export type WhereItem = Condition | Connector | WhereItem[];
 
-export type WhereClause = string | Condition | WhereItem[];
+export type WhereShorthand = Record<string, Param>;
+
+export type WhereClause = string | Condition | WhereItem[] | WhereShorthand;
 
 type Values = Record<string, unknown>;
 

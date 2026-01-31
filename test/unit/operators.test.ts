@@ -95,4 +95,53 @@ describe('OP (operators)', () => {
     assert.strictEqual(cond.condition, '`age` NOT BETWEEN ? AND ?');
     assert.deepStrictEqual(cond.params, [18, 65]);
   });
+
+  it('should build AND condition', () => {
+    const cond = OP.AND(OP.eq('status', 'active'), OP.eq('role', 'admin'));
+    assert.strictEqual(cond.condition, '(`status` = ? AND `role` = ?)');
+    assert.deepStrictEqual(cond.params, ['active', 'admin']);
+  });
+
+  it('should build AND condition with multiple operands', () => {
+    const cond = OP.AND(OP.eq('a', 1), OP.eq('b', 2), OP.eq('c', 3));
+    assert.strictEqual(cond.condition, '(`a` = ? AND `b` = ? AND `c` = ?)');
+    assert.deepStrictEqual(cond.params, [1, 2, 3]);
+  });
+
+  it('should build OR condition', () => {
+    const cond = OP.OR(OP.eq('status', 'active'), OP.eq('status', 'pending'));
+    assert.strictEqual(cond.condition, '(`status` = ? OR `status` = ?)');
+    assert.deepStrictEqual(cond.params, ['active', 'pending']);
+  });
+
+  it('should build OR condition with multiple operands', () => {
+    const cond = OP.OR(
+      OP.eq('role', 'admin'),
+      OP.eq('role', 'editor'),
+      OP.eq('role', 'viewer')
+    );
+    assert.strictEqual(
+      cond.condition,
+      '(`role` = ? OR `role` = ? OR `role` = ?)'
+    );
+    assert.deepStrictEqual(cond.params, ['admin', 'editor', 'viewer']);
+  });
+
+  it('should build XOR condition', () => {
+    const cond = OP.XOR(OP.eq('isAdmin', true), OP.eq('isModerator', true));
+    assert.strictEqual(cond.condition, '(`isAdmin` = ? XOR `isModerator` = ?)');
+    assert.deepStrictEqual(cond.params, [true, true]);
+  });
+
+  it('should build nested AND inside OR', () => {
+    const cond = OP.OR(
+      OP.AND(OP.gte('age', 18), OP.eq('status', 'locked')),
+      OP.AND(OP.lt('age', 18), OP.eq('status', 'enabled'))
+    );
+    assert.strictEqual(
+      cond.condition,
+      '((`age` >= ? AND `status` = ?) OR (`age` < ? AND `status` = ?))'
+    );
+    assert.deepStrictEqual(cond.params, [18, 'locked', 18, 'enabled']);
+  });
 });

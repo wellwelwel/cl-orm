@@ -1,6 +1,11 @@
 import type { Condition, Param } from '../../types.js';
 import { quoteIdentifier } from '../_utils.js';
 
+const logical = (connector: string, conditions: Condition[]): Condition => ({
+  condition: `(${conditions.map((c) => c.condition).join(` ${connector} `)})`,
+  params: conditions.flatMap((c) => c.params),
+});
+
 const comparison = (
   column: string,
   operator: string,
@@ -93,4 +98,8 @@ export const OP = {
     condition: `${quoteIdentifier(column)} NOT BETWEEN ? AND ?`,
     params,
   }),
+
+  AND: (...conditions: Condition[]): Condition => logical('AND', conditions),
+  OR: (...conditions: Condition[]): Condition => logical('OR', conditions),
+  XOR: (...conditions: Condition[]): Condition => logical('XOR', conditions),
 };

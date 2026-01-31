@@ -10,4 +10,5 @@ export type {
   Param,
   WhereClause,
   WhereItem,
+  WhereShorthand,
 } from './types.js';
