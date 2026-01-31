@@ -16,8 +16,8 @@ A lightweight **ORM** for **Cloudflare Workers** (**D1** and **Durable Objects**
 
 - Supports both **Cloudflare D1** and **Durable Objects** SQL Storage.
 - Unified **Connection** interface across different database drivers.
-- An user-friendly ORM for **INSERT**, **SELECT**, **UPDATE**, **DELETE** and **WHERE** clauses.
-- Automatic **Prepared Statements** (including **LIMIT** and **OFFSET**).
+- A user-friendly ORM for **INSERT**, **SELECT**, **UPDATE**, **DELETE** and **WHERE** clauses.
+- Automatic **Prepared Statements**.
 
 ---
 
