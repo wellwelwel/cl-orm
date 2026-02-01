@@ -1,11 +1,11 @@
 import type { DeleteOptions } from '../types.js';
-import { quoteIdentifier } from './_utils.js';
+import { backtick } from './_utils.js';
 import { buildWhere } from './where/where.js';
 
 export const buildDelete = (
   options: DeleteOptions
 ): { sql: string; params: unknown[] } => {
-  const parts: string[] = ['DELETE FROM', quoteIdentifier(options.from)];
+  const parts: string[] = ['DELETE FROM', backtick(options.from)];
   const params: unknown[] = [];
 
   if (options.where) {

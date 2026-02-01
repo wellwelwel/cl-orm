@@ -1,20 +1,15 @@
 import type { UpdateOptions } from '../types.js';
-import { quoteIdentifier } from './_utils.js';
+import { backtick } from './_utils.js';
 import { buildWhere } from './where/where.js';
 
 export const buildUpdate = (
   options: UpdateOptions
 ): { sql: string; params: unknown[] } => {
   const columns = Object.keys(options.set);
-  const setSql = columns.map((col) => `${quoteIdentifier(col)} = ?`).join(', ');
+  const setSql = columns.map((col) => `${backtick(col)} = ?`).join(', ');
   const params: unknown[] = columns.map((col) => options.set[col]);
 
-  const parts: string[] = [
-    'UPDATE',
-    quoteIdentifier(options.table),
-    'SET',
-    setSql,
-  ];
+  const parts: string[] = ['UPDATE', backtick(options.table), 'SET', setSql];
 
   if (options.where) {
     const where = buildWhere(options.where);

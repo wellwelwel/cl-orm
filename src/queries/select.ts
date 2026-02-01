@@ -1,12 +1,12 @@
 import type { JoinOptions, SelectOptions } from '../types.js';
-import { quoteIdentifier } from './_utils.js';
+import { backtick } from './_utils.js';
 import { buildWhere } from './where/where.js';
 
 const buildColumns = (columns?: string | string[]): string => {
   if (!columns) return '*';
   if (typeof columns === 'string') return columns;
 
-  return columns.map(quoteIdentifier).join(', ');
+  return columns.map(backtick).join(', ');
 };
 
 const buildJoin = (join: JoinOptions): string => {
@@ -14,7 +14,7 @@ const buildJoin = (join: JoinOptions): string => {
     ? `${join.type.toUpperCase()} OUTER`
     : join.type.toUpperCase();
 
-  return `${type} JOIN ${quoteIdentifier(join.table)} ON ${quoteIdentifier(join.on.a)} = ${quoteIdentifier(join.on.b)}`;
+  return `${type} JOIN ${backtick(join.table)} ON ${backtick(join.on.a)} = ${backtick(join.on.b)}`;
 };
 
 export const buildSelect = (
@@ -26,7 +26,7 @@ export const buildSelect = (
   if (options.distinct) parts.push('DISTINCT');
 
   parts.push(buildColumns(options.columns));
-  parts.push('FROM', quoteIdentifier(options.from));
+  parts.push('FROM', backtick(options.from));
 
   if (options.join) {
     const joins = Array.isArray(options.join) ? options.join : [options.join];
@@ -41,11 +41,11 @@ export const buildSelect = (
     params.push(...where.params);
   }
 
-  if (options.groupBy) parts.push('GROUP BY', quoteIdentifier(options.groupBy));
+  if (options.groupBy) parts.push('GROUP BY', backtick(options.groupBy));
 
   if (options.orderBy) {
     const [column, direction = 'ASC'] = options.orderBy;
-    parts.push('ORDER BY', quoteIdentifier(column), direction);
+    parts.push('ORDER BY', backtick(column), direction);
   }
 
   if (options.limit !== undefined) {

@@ -6,7 +6,7 @@ import type {
   WhereItem,
   WhereShorthand,
 } from '../../types.js';
-import { quoteIdentifier } from '../_utils.js';
+import { backtick } from '../_utils.js';
 
 const isConnector = (value: WhereItem): value is Connector =>
   typeof value === 'string' && ['AND', 'OR', 'XOR', 'NOT'].includes(value);
@@ -21,9 +21,7 @@ const fromShorthand = (
   shorthand: WhereShorthand
 ): { sql: string; params: Param[] } => {
   const entries = Object.entries(shorthand);
-  const sql = entries
-    .map(([key]) => `${quoteIdentifier(key)} = ?`)
-    .join(' AND ');
+  const sql = entries.map(([key]) => `${backtick(key)} = ?`).join(' AND ');
   const params = entries.map(([, value]) => value);
 
   return { sql, params };

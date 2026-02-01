@@ -1,5 +1,5 @@
 import type { Condition, Param } from '../../types.js';
-import { quoteIdentifier } from '../_utils.js';
+import { backtick } from '../_utils.js';
 
 const logical = (connector: string, conditions: Condition[]): Condition => ({
   condition: `(${conditions.map((c) => c.condition).join(` ${connector} `)})`,
@@ -11,7 +11,7 @@ const comparison = (
   operator: string,
   param: Param
 ): Condition => ({
-  condition: `${quoteIdentifier(column)} ${operator} ?`,
+  condition: `${backtick(column)} ${operator} ?`,
   params: [param],
 });
 
@@ -34,12 +34,12 @@ export const OP = {
     comparison(column, 'NOT LIKE', param),
 
   isNull: (column: string): Condition => ({
-    condition: `${quoteIdentifier(column)} IS NULL`,
+    condition: `${backtick(column)} IS NULL`,
     params: [],
   }),
 
   isNotNull: (column: string): Condition => ({
-    condition: `${quoteIdentifier(column)} IS NOT NULL`,
+    condition: `${backtick(column)} IS NOT NULL`,
     params: [],
   }),
 
@@ -50,7 +50,7 @@ export const OP = {
   ): Condition => {
     if (typeof valuesOrSubquery === 'string') {
       return {
-        condition: `${quoteIdentifier(column)} IN (${valuesOrSubquery})`,
+        condition: `${backtick(column)} IN (${valuesOrSubquery})`,
         params: subqueryParams ?? [],
       };
     }
@@ -58,7 +58,7 @@ export const OP = {
     const placeholders = valuesOrSubquery.map(() => '?').join(', ');
 
     return {
-      condition: `${quoteIdentifier(column)} IN (${placeholders})`,
+      condition: `${backtick(column)} IN (${placeholders})`,
       params: valuesOrSubquery,
     };
   }) as {
@@ -73,7 +73,7 @@ export const OP = {
   ): Condition => {
     if (typeof valuesOrSubquery === 'string') {
       return {
-        condition: `${quoteIdentifier(column)} NOT IN (${valuesOrSubquery})`,
+        condition: `${backtick(column)} NOT IN (${valuesOrSubquery})`,
         params: subqueryParams ?? [],
       };
     }
@@ -81,7 +81,7 @@ export const OP = {
     const placeholders = valuesOrSubquery.map(() => '?').join(', ');
 
     return {
-      condition: `${quoteIdentifier(column)} NOT IN (${placeholders})`,
+      condition: `${backtick(column)} NOT IN (${placeholders})`,
       params: valuesOrSubquery,
     };
   }) as {
@@ -90,12 +90,12 @@ export const OP = {
   },
 
   between: (column: string, params: [Param, Param]): Condition => ({
-    condition: `${quoteIdentifier(column)} BETWEEN ? AND ?`,
+    condition: `${backtick(column)} BETWEEN ? AND ?`,
     params,
   }),
 
   notBetween: (column: string, params: [Param, Param]): Condition => ({
-    condition: `${quoteIdentifier(column)} NOT BETWEEN ? AND ?`,
+    condition: `${backtick(column)} NOT BETWEEN ? AND ?`,
     params,
   }),
 
