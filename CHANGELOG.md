@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.2](https://github.com/wellwelwel/cl-orm/compare/v2.1.1...v2.1.2) (2026-02-01)
+
+
+### Bug Fixes
+
+* handle empty values ([9187f4a](https://github.com/wellwelwel/cl-orm/commit/9187f4a3207ffe03bcca7366a41ed29394065590))
+
 ## [2.1.1](https://github.com/wellwelwel/cl-orm/compare/v2.1.0...v2.1.1) (2026-02-01)
 
 
