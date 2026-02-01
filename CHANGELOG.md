@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.1](https://github.com/wellwelwel/cl-orm/compare/v2.1.0...v2.1.1) (2026-02-01)
+
+
+### Bug Fixes
+
+* handle `null` values in shorthand conditions ([322067d](https://github.com/wellwelwel/cl-orm/commit/322067d413ac9e3059e5d51f0040179d8beb57e0))
+
 ## [2.1.0](https://github.com/wellwelwel/cl-orm/compare/v2.0.0...v2.1.0) (2026-02-01)
 
 
