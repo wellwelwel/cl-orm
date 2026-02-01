@@ -12,6 +12,6 @@ const Home = () => {
   const redirectUrl = setLocaleRedirectMap();
 
   return <Redirect to={redirectUrl} />;
-}
+};
 
 export default Home;
