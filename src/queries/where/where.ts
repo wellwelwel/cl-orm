@@ -21,8 +21,16 @@ const fromShorthand = (
   shorthand: WhereShorthand
 ): { sql: string; params: Param[] } => {
   const entries = Object.entries(shorthand);
-  const sql = entries.map(([key]) => `${backtick(key)} = ?`).join(' AND ');
-  const params = entries.map(([, value]) => value);
+
+  const sql = entries
+    .map(([key, value]) =>
+      value === null ? `${backtick(key)} IS NULL` : `${backtick(key)} = ?`
+    )
+    .join(' AND ');
+
+  const params = entries
+    .filter(([, value]) => value !== null)
+    .map(([, value]) => value);
 
   return { sql, params };
 };

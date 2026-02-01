@@ -323,8 +323,8 @@ describe('buildWhere', () => {
 
   it('should handle object shorthand with null value', () => {
     const result = buildWhere({ status: 'active', deletedAt: null });
-    assert.strictEqual(result.sql, '`status` = ? AND `deletedAt` = ?');
-    assert.deepStrictEqual(result.params, ['active', null]);
+    assert.strictEqual(result.sql, '`status` = ? AND `deletedAt` IS NULL');
+    assert.deepStrictEqual(result.params, ['active']);
   });
 
   it('should handle object shorthand with boolean value', () => {
