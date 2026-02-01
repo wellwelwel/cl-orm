@@ -1,7 +1,7 @@
 import type { Connection } from '../../src/types.js';
 import { OP } from '../../src/index.js';
 
-export async function routes(url: URL, db: Connection): Promise<Response> {
+export const routes = async (url: URL, db: Connection): Promise<Response> => {
   switch (url.pathname) {
     case '/setup': {
       await db.query('DROP TABLE IF EXISTS users');
@@ -65,4 +65,4 @@ export async function routes(url: URL, db: Connection): Promise<Response> {
     default:
       return new Response('Not found', { status: 404 });
   }
-}
+};

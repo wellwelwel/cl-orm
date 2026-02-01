@@ -1,7 +1,7 @@
 import { Redirect } from '@docusaurus/router';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
-function Home() {
+const Home = () => {
   const { i18n, siteConfig } = useDocusaurusContext();
   const { baseUrl } = siteConfig;
   const currentLocale = i18n.currentLocale;
