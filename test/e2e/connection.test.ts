@@ -48,7 +48,7 @@ describe('Starting drivers', async () => {
 
           assert.ok(Array.isArray(data.rows));
           assert.ok(data.rows.length > 0);
-          assert.strictEqual(data.rows[0].name, 'Alice');
+          assert.strictEqual(data?.rows?.[0]?.name, 'Alice');
         });
 
         await it('should select a single row with limit 1', async () => {
@@ -80,7 +80,7 @@ describe('Starting drivers', async () => {
           };
 
           assert.ok(data.rows.length > 0);
-          assert.strictEqual(data.rows[0].name, 'Alice');
+          assert.strictEqual(data?.rows?.[0]?.name, 'Alice');
         });
 
         await it('should update a row', async () => {
@@ -94,7 +94,7 @@ describe('Starting drivers', async () => {
             rows: Array<{ id: number; name: string; email: string }>;
           };
 
-          assert.strictEqual(data.rows[0].name, 'Bob');
+          assert.strictEqual(data?.rows?.[0]?.name, 'Bob');
         });
 
         await it('should delete a row', async () => {

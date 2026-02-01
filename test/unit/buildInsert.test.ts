@@ -33,4 +33,10 @@ describe('buildInsert', () => {
       'b@b.com',
     ]);
   });
+
+  it('should throw when values is an empty array', () => {
+    assert.throws(() => buildInsert({ into: 'users', values: [] }), {
+      message: 'values must not be empty',
+    });
+  });
 });

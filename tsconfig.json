@@ -15,6 +15,7 @@
     "noUnusedParameters": false,
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
+    "noUncheckedIndexedAccess": true,
     "noImplicitAny": true,
     "removeComments": false,
     "sourceMap": false,
