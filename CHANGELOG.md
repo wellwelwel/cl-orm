@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.1.0](https://github.com/wellwelwel/cl-orm/compare/v2.0.0...v2.1.0) (2026-02-01)
+
+
+### Features
+
+* expose `backtick` helper ([1ff1d27](https://github.com/wellwelwel/cl-orm/commit/1ff1d275fec7699fc7735f34b4cf896e2055ebf6))
+
+
+### Bug Fixes
+
+* ignore backticks for quoted table and columns ([84d9118](https://github.com/wellwelwel/cl-orm/commit/84d9118c0063440ebff1705b27c1c2a790d91b97))
+
 ## [2.0.0](https://github.com/wellwelwel/cl-orm/compare/v1.0.0...v2.0.0) (2026-01-31)
 
 
