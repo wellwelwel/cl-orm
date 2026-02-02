@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.3](https://github.com/wellwelwel/cl-orm/compare/v2.1.2...v2.1.3) (2026-02-02)
+
+
+### Bug Fixes
+
+* handle inconsistent columns ([8d211ad](https://github.com/wellwelwel/cl-orm/commit/8d211ad112d7becd16089719401a8778cd57c506))
+
 ## [2.1.2](https://github.com/wellwelwel/cl-orm/compare/v2.1.1...v2.1.2) (2026-02-01)
 
 
