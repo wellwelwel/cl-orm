@@ -36,7 +36,35 @@ describe('buildInsert', () => {
 
   it('should throw when values is an empty array', () => {
     assert.throws(() => buildInsert({ into: 'users', values: [] }), {
-      message: 'values must not be empty',
+      message: 'Values must not be empty.',
     });
+  });
+
+  it('should throw when columns are inconsistent', () => {
+    assert.throws(
+      () =>
+        buildInsert({
+          into: 'users',
+          values: [
+            { name: 'Alice', email: 'a@b.com' },
+            { name: 'Bob', age: 30 },
+          ],
+        }),
+      { message: 'Inconsistent columns across values.' }
+    );
+  });
+
+  it('should throw when columns position are inconsistent', () => {
+    assert.throws(
+      () =>
+        buildInsert({
+          into: 'users',
+          values: [
+            { name: 'Alice', email: 'a@b.com' },
+            { email: 'b@b.com', name: 'Bob' },
+          ],
+        }),
+      { message: 'Inconsistent columns position across values.' }
+    );
   });
 });
