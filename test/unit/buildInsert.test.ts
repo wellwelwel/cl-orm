@@ -54,6 +54,17 @@ describe('buildInsert', () => {
     );
   });
 
+  it('should throw when columns count is inconsistent', () => {
+    assert.throws(
+      () =>
+        buildInsert({
+          into: 'users',
+          values: [{ name: 'Alice', email: 'a@b.com' }, { name: 'Bob' }],
+        }),
+      { message: 'Inconsistent columns across values.' }
+    );
+  });
+
   it('should throw when columns position are inconsistent', () => {
     assert.throws(
       () =>
